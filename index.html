@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="popcorn.js"></script>
+
+    <title>Document</title>
+    <style>
+        .image-container {
+            width: 30vw;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .image-background {
+            width: 100%;
+        }
+
+        .image-mouth {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 100%;
+            animation-name: example;
+            animation-duration: .6s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes example {
+            0% {
+                top: 0;
+            }
+            25% {
+                top: 2px;
+            }
+            50% {
+                top: 4px;
+            }
+            75% {
+                top: 3px;
+            }
+            100% {
+                top: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <audio id="bflat"></audio>
+        <div id="video"></div>
+        <div id="footnote"></div>
+
+        <div class="image-container">
+            <img src="abdala-bucaram-ortiz.png" class="image-background">
+            <img src="abdala-bucaram-ortiz-boca.png" class="image-mouth">
+        </div>
+        <button onclick="myFunction()" type="button">Play</button>
+    </div>
+</body>
+<script>
+    var i = -1;
+    var sounds = new Array("./source/audio/audio-trim-1.mp3", "./source/audio/audio-trim-2.mp3", "./source/audio/audio-trim-3.mp3", "./source/audio/audio-trim-4.mp3", "./source/audio/audio-trim-2.mp3");
+    var x = document.getElementById("bflat");
+    function myFunction() {
+        //x.stop();
+        i++;
+        if (i == sounds.length) i = 0;
+        x.src = sounds[i];
+        x.volume = 0.3;
+        x.loop = false;
+        x.play();
+    };
+
+    // wait for DOM to load
+    document.addEventListener('DOMContentLoaded', function () {
+        // popcorn events are chainable this means that you can also do:
+        // p.play(); or p.footnote{};
+        // Make a popcorn instance, passing the id of the video element.
+        // notice the <video id='video' ... > at the bottom of the page.
+        var popcorn = Popcorn('#bflat');
+
+        popcorn.timeline({
+            start: 5, // seconds
+            target: "timeline",
+            title: "Seneca",
+            text: "Welcome to seneca",
+            innerHTML: "Click this link <a href='http://www.google.ca'>Google</a>"
+        });
+        popcorn.on("trackstart", function () {
+            // Log the event to the console
+            console.log("\"trackstart\" event fired!");
+        });
+
+        // listen for the "trackend" event, and execute a function when it is triggered
+        popcorn.on("trackend", function () {
+            // Log the event to the console
+            console.log("\"trackend\" event fired!");
+        });
+        var trackEvents = pop.getTrackEvents();
+
+        console.log(trackEvents);
+
+
+    }, false); 
+</script>
+
+</html>
